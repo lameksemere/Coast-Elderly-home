@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Coast Elderly Home</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="admin">
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><span class="logo-dot">🧓</span> Coast Elderly Home</a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-nav="home">Home</a></li>
+      <li><a href="about.html" data-nav="about">About</a></li>
+      <li><a href="blog.html" data-nav="blog">Blog</a></li>
+      <li><a href="stories.html" data-nav="stories">Stories</a></li>
+      <li><a href="contact.html" data-nav="contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      <button class="btn btn-outline btn-sm" id="admin-logout" style="display:none;">Log out</button>
+    </div>
+  </div>
+</nav>
+
+<!-- LOGIN -->
+<div id="admin-login" class="container">
+  <div class="login-box form-card">
+    <h2 style="font-size:1.4rem;margin-bottom:6px;">🔐 Admin Login</h2>
+    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:22px;">Manage blog posts, stories, messages and donations.</p>
+    <div class="alert-box alert-error" id="admin-login-error" style="display:none;"></div>
+    <form id="admin-login-form">
+      <div class="form-group">
+        <label for="admin-pass">Password</label>
+        <input type="password" id="admin-pass" placeholder="Enter admin password">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Log In</button>
+      <p style="text-align:center;font-size:.78rem;color:var(--text-muted);margin-top:14px;">Demo password: <strong>admin123</strong></p>
+    </form>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="admin-shell" class="admin-shell" style="display:none;">
+  <aside class="admin-side">
+    <button class="active" data-panel="overview">📊 Overview</button>
+    <button data-panel="posts">📝 Blog Posts</button>
+    <button data-panel="stories">💬 Stories</button>
+    <button data-panel="messages">✉️ Messages</button>
+    <button data-panel="donations">💰 Donations</button>
+    <button id="admin-reset" style="margin-top:20px;color:var(--danger);">♻️ Reset Demo Data</button>
+  </aside>
+
+  <main class="admin-main">
+    <!-- Overview -->
+    <div class="admin-panel active" id="panel-overview">
+      <h2 style="margin-bottom:20px;">Overview</h2>
+      <div class="grid grid-4" style="margin-bottom:10px;">
+        <div class="card stat-card"><div class="num" id="ov-raised">$0</div><div class="label">Total raised (of <span id="ov-goal">$0</span> goal)</div></div>
+        <div class="card stat-card"><div class="num" id="ov-donations">0</div><div class="label">Total donations</div></div>
+        <div class="card stat-card"><div class="num" id="ov-success">0</div><div class="label">Successful payments</div></div>
+        <div class="card stat-card"><div class="num" id="ov-fail">0</div><div class="label">Failed payments</div></div>
+        <div class="card stat-card"><div class="num" id="ov-messages">0</div><div class="label">Contact messages</div></div>
+        <div class="card stat-card"><div class="num" id="ov-posts">0</div><div class="label">Blog posts</div></div>
+        <div class="card stat-card"><div class="num" id="ov-seniors">0</div><div class="label">Seniors supported</div></div>
+        <div class="card stat-card"><div class="num" id="ov-volunteers">0</div><div class="label">Active volunteers</div></div>
+      </div>
+    </div>
+
+    <!-- Posts -->
+    <div class="admin-panel" id="panel-posts">
+      <div class="admin-toolbar"><h2>Blog Posts</h2></div>
+      <div class="card" style="margin-bottom:24px;">
+        <h3 style="margin-bottom:14px;">Add new post</h3>
+        <form id="post-add-form">
+          <div class="form-row">
+            <div class="form-group"><label>Title</label><input id="p-title" required></div>
+            <div class="form-group"><label>Category</label>
+              <select id="p-category"><option>Wellbeing</option><option>Health</option><option>Community</option><option>Transparency</option></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Author</label><input id="p-author" placeholder="Admin"></div>
+            <div class="form-group"><label>Image URL</label><input id="p-img" placeholder="https://…"></div>
+          </div>
+          <div class="form-group"><label>Excerpt</label><input id="p-excerpt" required></div>
+          <div class="form-group"><label>Full body</label><textarea id="p-body" rows="3" required></textarea></div>
+          <button class="btn btn-primary" type="submit">Publish Post</button>
+        </form>
+      </div>
+      <table id="posts-table"><thead><tr><th>Title</th><th>Category</th><th>Author</th><th>Date</th><th></th></tr></thead><tbody></tbody></table>
+    </div>
+
+    <!-- Stories -->
+    <div class="admin-panel" id="panel-stories">
+      <div class="admin-toolbar"><h2>Outcome Stories</h2></div>
+      <div class="card" style="margin-bottom:24px;">
+        <h3 style="margin-bottom:14px;">Add new story</h3>
+        <form id="story-add-form">
+          <div class="form-row">
+            <div class="form-group"><label>Person name / age</label><input id="s-name" required></div>
+            <div class="form-group"><label>Story title</label><input id="s-title" required></div>
+          </div>
+          <div class="form-group"><label>Outcome summary</label><input id="s-outcome" placeholder="e.g. 6 months support · Weekly visits"></div>
+          <div class="form-group"><label>Image URL</label><input id="s-img" placeholder="https://…"></div>
+          <div class="form-group"><label>Excerpt</label><input id="s-excerpt" required></div>
+          <div class="form-group"><label>Full story</label><textarea id="s-body" rows="3" required></textarea></div>
+          <button class="btn btn-primary" type="submit">Publish Story</button>
+        </form>
+      </div>
+      <table id="stories-table"><thead><tr><th>Name</th><th>Title</th><th></th></tr></thead><tbody></tbody></table>
+    </div>
+
+    <!-- Messages -->
+    <div class="admin-panel" id="panel-messages">
+      <div class="admin-toolbar"><h2>Contact Messages</h2></div>
+      <table id="messages-table"><thead><tr><th>From</th><th>Subject</th><th>Message</th><th>Date</th><th></th></tr></thead><tbody></tbody></table>
+    </div>
+
+    <!-- Donations -->
+    <div class="admin-panel" id="panel-donations">
+      <div class="admin-toolbar"><h2>Donation Log</h2></div>
+      <table id="donations-table"><thead><tr><th>Donor</th><th>Amount</th><th>Frequency</th><th>Date</th><th>Status</th></tr></thead><tbody></tbody></table>
+    </div>
+  </main>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
+    const check = ()=>{ document.getElementById('admin-logout').style.display = sessionStorage.getItem(window.GYC_KEYS.admin)==='true' ? 'inline-flex' : 'none'; };
+    check();
+    document.getElementById('admin-logout').addEventListener('click', check);
+    document.getElementById('admin-login-form').addEventListener('submit', ()=> setTimeout(check,50));
+  });
+</script>
+</body>
+</html>
